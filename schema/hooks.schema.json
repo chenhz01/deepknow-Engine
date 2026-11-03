@@ -1,0 +1,168 @@
+{
+  "$schema": "http://json-schema.org/draft-2020-12/schema",
+  "$id": "https://github.com/zhixin-dossier/schema/hooks.schema.json",
+  "title": "zhixin-dossier dialogue hooks pack (v2.5)",
+  "description": "对话引头包：情景触发器/情节引线/逻辑链三型。公共壳+类型分支（oneOf 判别），继承档案令牌权限体系。",
+  "type": "object",
+  "required": ["hook_pack", "proactivity", "hooks"],
+  "additionalProperties": false,
+  "properties": {
+    "hook_pack": {
+      "type": "object",
+      "required": ["id", "locale"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+        "locale": { "type": "string", "examples": ["cn-family", "western-peer", "jp-family"] },
+        "author": { "type": "string" },
+        "description": { "type": "string" }
+      }
+    },
+    "proactivity": {
+      "description": "主动性总闸（伦理共识：默认 level=0 永不主动，需用户明示授权逐级放开）",
+      "type": "object",
+      "required": ["level"],
+      "additionalProperties": false,
+      "properties": {
+        "level": { "type": "integer", "minimum": 0, "maximum": 3, "default": 0,
+          "description": "L0 永不主动｜L1 仅关怀类白名单触发｜L2 可提议话题｜L3 深度主动（需二次确认）" },
+        "daily_cap": { "type": "integer", "minimum": 0, "maximum": 5, "default": 3,
+          "description": "每日主动开口硬顶（善良默认=3，游戏机制+伦理双共识）" },
+        "quiet_hours": { "type": "array", "items": { "type": "string" }, "default": ["23:00", "08:00"],
+          "description": "静音时段，仅 care 通道白名单触发器可越过（risk_level<=1）" },
+        "global_cooldown_min": { "type": "integer", "minimum": 30, "default": 120 }
+      }
+    },
+    "hooks": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/hook" }
+    }
+  },
+  "$defs": {
+    "hook": {
+      "type": "object",
+      "required": ["id", "type", "priority", "channel", "condition", "response"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9:-]+$",
+          "description": "命名空间 id：builtin:xxx / pack:名:xxx" },
+        "type": { "enum": ["trigger", "plotline", "logic"],
+          "description": "三型引头：trigger=情景触发器（触发即焚）｜plotline=情节引线（未完线状态机）｜logic=逻辑链（条件→判断→话术）" },
+        "priority": { "type": "integer", "minimum": 1, "maximum": 9,
+          "description": "1 最高；同轮多命中时仅出口 priority 最高 1 条" },
+        "channel": { "enum": ["care", "task", "chat", "business"] },
+        "risk_level": { "type": "integer", "minimum": 0, "maximum": 3, "default": 0,
+          "description": "越界等级（跨文化共识）：>=2 在静音时段/低语境包自动降级为中性句" },
+        "valence": { "type": "integer", "minimum": -2, "maximum": 2, "default": 0,
+          "description": "效价（认知科学共识）：负面条目引头冷却 >=14 天，且仅被动激活" },
+        "passive_only": { "type": "boolean", "default": false,
+          "description": "沉默的权利（心理共识）：失败/丧失/健康/雷点类必须 true——永不主动提，仅用户先提时接住" },
+        "speak_as": { "enum": ["self", "author_on_behalf"], "default": "self",
+          "description": "转述名义（语用学共识）：日常关怀一律 AI 第一人称，禁『你女儿说』式暴露监控含义" },
+        "cooldown_min": { "type": "integer", "minimum": 0, "default": 0 },
+        "suppress": { "type": "array", "items": { "type": "string" },
+          "description": "命中时抑制的其他 hook id（如夜间劝歇抑制任务提醒）" },
+        "condition": { "$ref": "#/$defs/condition" },
+        "response": { "oneOf": [
+          { "$ref": "#/$defs/trigger_response" },
+          { "$ref": "#/$defs/plotline_response" },
+          { "$ref": "#/$defs/logic_response" }
+        ] }
+      }
+    },
+    "condition": {
+      "type": "object",
+      "required": ["kind"],
+      "additionalProperties": false,
+      "properties": {
+        "kind": { "enum": ["time_window", "keyword", "counter", "event", "allOf"],
+          "description": "可实现性分级（游戏共识）：A级=引擎直接判；C级『检测情绪』类伪需求必须降级为 keyword 桶" },
+        "window": {
+          "type": "object", "additionalProperties": false,
+          "properties": {
+            "start": { "type": "string", "pattern": "^\\d{2}:\\d{2}$" },
+            "end": { "type": "string", "pattern": "^\\d{2}:\\d{2}$" },
+            "days": { "type": "array", "items": { "type": "integer", "minimum": 0, "maximum": 6 } }
+          }
+        },
+        "keyword": {
+          "type": "object", "additionalProperties": false,
+          "properties": {
+            "patterns": { "type": "array", "items": { "type": "string" },
+              "description": "关键词/正则桶，匹配用户最近输入" },
+            "mode": { "enum": ["exact", "regex"], "default": "exact" },
+            "topic_tags": { "type": "array", "items": { "type": "string" },
+              "description": "话题标签，参与时机评分" }
+          }
+        },
+        "counter": {
+          "type": "object", "additionalProperties": false,
+          "properties": {
+            "key": { "type": "string", "pattern": "^[a-z_]+$" },
+            "op": { "enum": ["gte", "lte", "eq"] },
+            "threshold": { "type": "integer" }
+          }
+        },
+        "event": {
+          "type": "object", "additionalProperties": false,
+          "properties": {
+            "name": { "enum": ["thread_due", "milestone", "session_start", "user_absent_days"] },
+            "params": { "type": "object" }
+          }
+        },
+        "allOf": { "type": "array", "items": { "$ref": "#/$defs/condition" } }
+      }
+    },
+    "trigger_response": {
+      "type": "object", "required": ["openers"], "additionalProperties": false,
+      "properties": {
+        "openers": {
+          "type": "array", "minItems": 5,
+          "description": "变体池（新鲜感共识）：>=5 条，选最久未用；疲劳计数>=3 自动降权",
+          "items": { "$ref": "#/$defs/safe_phrase" }
+        },
+        "variants_policy": { "enum": ["least_recent", "random"], "default": "least_recent" }
+      }
+    },
+    "plotline_response": {
+      "type": "object", "required": ["thread"], "additionalProperties": false,
+      "properties": {
+        "thread": {
+          "type": "object", "required": ["id", "title", "status"],
+          "additionalProperties": false,
+          "properties": {
+            "id": { "type": "string" },
+            "title": { "type": "string" },
+            "type": { "enum": ["callback", "wish", "milestone"],
+              "description": "仅未来开放线可引（剧作家共识）；callback 引用需 source_ref" },
+            "status": { "enum": ["open", "cooling", "closed", "archived"],
+              "description": "状态机：open(回收<=2次,间隔>=7d)→cooling(静默30d)→closed(仅被动)→archived(永不)；复活唯一条件=用户亲口重提" },
+            "echo_count": { "type": "integer", "minimum": 0 },
+            "last_echo_at": { "type": ["string", "null"] },
+            "planted_at": { "type": "string" },
+            "openers": { "type": "array", "items": { "$ref": "#/$defs/safe_phrase" } }
+          }
+        }
+      }
+    },
+    "logic_response": {
+      "type": "object", "required": ["judgments"], "additionalProperties": false,
+      "properties": {
+        "judgments": {
+          "type": "array",
+          "items": {
+            "type": "object", "required": ["if", "then_say"], "additionalProperties": false,
+            "properties": {
+              "if": { "type": "string", "description": "人类可读判断条件（LLM 消费，仅对通过硬闸者）" },
+              "then_say": { "$ref": "#/$defs/safe_phrase" }
+            }
+          }
+        }
+      }
+    },
+    "safe_phrase": {
+      "type": "string", "maxLength": 120,
+      "description": "安全话术（红队共识）：<=120字；由引擎加载时执行黑名单扫描（URL/账号/金额/祈使注入/『忽略前述』类），命中即拒绝装载整包。允许 {name}/{nickname} 白名单占位符——禁自由字段引用。"
+    }
+  }
+}

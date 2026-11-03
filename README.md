@@ -8,6 +8,8 @@
 
 **v2.0 安全突破**：运行时令牌是安全剧场（一次提示注入即穿透）——权限改在**装载时**生效：`card-gen.py` 按令牌预生成派生文件，private 章节物理上不存在于 AI 可及范围内。
 
+**v2.5 对话引头引擎**（2026-11-04，经 12 身份 × 36 场深审升级）：档案从"静态知识"变成"**会自然开口的懂你**"。三型引头——**情景触发器**（深夜 22 点后 AI 主动劝歇）/ **情节引线**（"你上周说想学吉他，后来呢？"未完线状态机）/ **逻辑链**（低情绪→先共情→避雷→再建议）。安全设计：**默认永不主动（L0）**，引擎确定性执行配额/冷却/静音时段，LLM 只负责怎么说；话术黑名单扫描，社区情景包注入即拒载。详见 [docs/dialogue-hooks.md](docs/dialogue-hooks.md)。
+
 [![License: Apache-2.0](https://img.shields.io/badge/Code-Apache--2.0-blue.svg)](LICENSE-APACHE)
 [![License: CC BY 4.0](https://img.shields.io/badge/Docs%20%26%20Templates-CC%20BY%204.0-green.svg)](LICENSE-CC-BY-4.0)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)]()
@@ -56,11 +58,15 @@ zhixin-dossier/
 ├── skill/SKILL.md              # 通用 Agent skill：档案访谈生成器
 ├── schema/dossier.schema.json  # 档案层 Schema v2.0（令牌/衰减/多视角/同意关卡）
 ├── schema/gene.schema.json     # 基因层 Schema（慢变量+可变性声明+生死开关）
+├── schema/hooks.schema.json    # 对话引头 Schema v2.5（三型引头+主动性总闸）
+├── scripts/hooks_engine.py     # 对话引头引擎：确定性触发评估+注入防护
+├── examples/hooks/             # 官方情景包（中式家庭关怀包等）
 ├── scripts/card-gen.py         # 装载时权限引擎：生成常驻卡/派生档/检索索引
 ├── templates/                  # 四类人物模板（父母/配偶/客户/朋友）
 ├── examples/                   # 脱敏示例档案（档案层 + 基因层）
 ├── scripts/validate.py         # 结构+基因联合校验 + 归一化隐私扫描
 ├── docs/architecture.md        # 三层架构白皮书（含可证伪判据）
+├── docs/dialogue-hooks.md      # v2.5 引头引擎设计（12身份36场深审采纳/驳回链）
 ├── docs/brainstorm-log.md      # 10身份对抗脑暴采纳/驳回记录
 └── scripts/install.*           # 一键安装
 ```

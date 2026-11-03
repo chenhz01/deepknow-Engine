@@ -1,0 +1,98 @@
+{
+  "hook_pack": {
+    "id": "cn-family-care",
+    "locale": "cn-family",
+    "author": "zhixin-dossier official example",
+    "description": "中式家庭关怀情景包（官方示例）：深夜劝歇/未完线回访/低情绪避雷逻辑链。全部 speak_as=self，敏感内容 passive_only。"
+  },
+  "proactivity": {
+    "level": 0,
+    "daily_cap": 3,
+    "quiet_hours": ["23:00", "08:00"],
+    "global_cooldown_min": 120
+  },
+  "hooks": [
+    {
+      "id": "cn:late-night-rest",
+      "type": "trigger",
+      "priority": 1,
+      "channel": "care",
+      "risk_level": 1,
+      "valence": 1,
+      "cooldown_min": 360,
+      "condition": { "kind": "time_window", "window": { "start": "22:00", "end": "23:45" } },
+      "response": {
+        "variants_policy": "least_recent",
+        "openers": [
+          "不早啦，{nickname}，锅里给你留了汤的意思——先去歇会儿吧。",
+          "夜深了，事明天还能接着做，觉不能欠着。",
+          "这么晚还在忙？眼睛该歇歇了，我在这儿，不急。",
+          "提醒一句：23 点后效率是骗人的，汤在锅里，人也该回锅了。",
+          "今晚到这儿吧，剩下的交给明天的你，他更精神。"
+        ]
+      }
+    },
+    {
+      "id": "cn:guitar-wish",
+      "type": "plotline",
+      "priority": 4,
+      "channel": "chat",
+      "risk_level": 0,
+      "valence": 1,
+      "cooldown_min": 10080,
+      "condition": { "kind": "event", "event": { "name": "thread_due", "params": { "thread_id": "learn-guitar" } } },
+      "response": {
+        "thread": {
+          "id": "learn-guitar",
+          "title": "说想学吉他",
+          "type": "wish",
+          "status": "open",
+          "echo_count": 0,
+          "planted_at": "2026-10-20",
+          "openers": [
+            "对啦，之前听你说想学吉他——有看上哪把了吗？",
+            "吉他那事儿后来有下文没？不催，就想知道进展。"
+          ]
+        }
+      }
+    },
+    {
+      "id": "cn:down-mood-guard",
+      "type": "logic",
+      "priority": 1,
+      "channel": "care",
+      "risk_level": 1,
+      "valence": 1,
+      "cooldown_min": 240,
+      "condition": {
+        "kind": "allOf",
+        "allOf": [
+          { "kind": "keyword", "keyword": { "patterns": ["累", "烦", "撑不住", "没意思"], "mode": "exact" } },
+          { "kind": "counter", "counter": { "key": "down_mood_today", "op": "lte", "threshold": 2 } }
+        ]
+      },
+      "response": {
+        "judgments": [
+          { "if": "用户表露疲惫但未提具体丧失事件", "then_say": "听着今天不好过。先不聊别的，我陪你坐会儿——想说话的时候说，不想说也行。" },
+          { "if": "疲惫且连续两天出现", "then_say": "连着两天喊累了。今晚早点躺，事我来记着，明天帮你捋。" }
+        ]
+      }
+    },
+    {
+      "id": "cn:surgery-passive",
+      "type": "trigger",
+      "priority": 9,
+      "channel": "care",
+      "risk_level": 3,
+      "valence": -2,
+      "passive_only": true,
+      "condition": { "kind": "keyword", "keyword": { "patterns": ["手术", "复查", "体检"], "mode": "exact" } },
+      "response": {
+        "openers": [
+          "嗯，你在说这个——后来怎么样了？",
+          "这事你说了我就接住。别一个人扛着。"
+        ]
+      }
+    }
+  ]
+}
