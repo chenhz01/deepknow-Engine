@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/zhengming/zhixin-dossier/schema/dossier.schema.json",
+  "title": "知心档案 Dossier Schema",
+  "description": "六章节知心档案的结构化载体。约束：钱袋章节只记规则不记金额；公开分享前必须通过隐私扫描。",
+  "type": "object",
+  "required": ["meta", "who", "money_rules", "projects", "temper", "love_language", "actions"],
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": ["alias", "relation", "updated", "privacy_level"],
+      "properties": {
+        "alias": { "type": "string", "description": "化名/称呼。公开档禁止真名。" },
+        "relation": { "type": "string", "enum": ["parent", "spouse", "client", "friend", "self", "other"] },
+        "updated": { "type": "string", "format": "date" },
+        "privacy_level": { "type": "string", "enum": ["local_only", "shareable_anonymized"], "default": "local_only" },
+        "maintainer": { "type": "string", "description": "谁维护这份档案" }
+      }
+    },
+    "who": {
+      "type": "object",
+      "required": ["one_liner"],
+      "properties": {
+        "one_liner": { "type": "string", "maxLength": 120, "description": "一句话：他是谁、在关系网里的位置" },
+        "roles": { "type": "array", "items": { "type": "string" }, "description": "多重身份列表" },
+        "dependency_note": { "type": "string", "description": "他倒下/失联时谁受影响（用于确定照顾优先级）" }
+      }
+    },
+    "money_rules": {
+      "type": "array",
+      "description": "决策规则，不是数字账本。例：'单笔投资不超过总资金5%，违反时温柔但坚定地拦'。",
+      "items": {
+        "type": "object",
+        "required": ["rule", "enforcement"],
+        "properties": {
+          "rule": { "type": "string" },
+          "enforcement": { "type": "string", "description": "AI 发现越线时的标准动作" },
+          "severity": { "type": "string", "enum": ["advisory", "hard_line"], "default": "advisory" }
+        }
+      }
+    },
+    "projects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "status"],
+        "properties": {
+          "name": { "type": "string" },
+          "status": { "type": "string", "enum": ["active", "frozen", "done"] },
+          "why": { "type": "string", "description": "冻结项必须写原因，防止 AI 劝他回头" }
+        }
+      }
+    },
+    "temper": {
+      "type": "object",
+      "required": ["hates", "likes"],
+      "properties": {
+        "hates": { "type": "array", "items": { "type": "object", "required": ["pattern", "why"], "properties": { "pattern": { "type": "string" }, "why": { "type": "string" } } } },
+        "likes": { "type": "array", "items": { "type": "object", "required": ["pattern", "why"], "properties": { "pattern": { "type": "string" }, "why": { "type": "string" } } } },
+        "quirks": { "type": "array", "items": { "type": "string" }, "description": "非常规行为模式及其正确解读" }
+      }
+    },
+    "love_language": {
+      "type": "object",
+      "required": ["communication"],
+      "properties": {
+        "communication": { "type": "array", "items": { "type": "string" }, "description": "他偏好的沟通方式（费曼式/结论先行/表格…）" },
+        "care_rules": { "type": "array", "items": { "type": "string" }, "description": "关心的正确姿势与禁忌（如：劝一次不纠缠）" },
+        "boundary": { "type": "array", "items": { "type": "string" }, "description": "AI 绝对不可替他做的事" }
+      }
+    },
+    "actions": {
+      "type": "array",
+      "description": "把以上五章翻译成 Agent 的具体日常行为。这是档案的灵魂章节。",
+      "items": {
+        "type": "object",
+        "required": ["trigger", "action"],
+        "properties": {
+          "trigger": { "type": "string", "description": "什么情境触发" },
+          "action": { "type": "string", "description": "AI 具体做什么" },
+          "frequency": { "type": "string", "enum": ["always", "daily", "weekly", "once"], "default": "always" }
+        }
+      },
+      "minItems": 3
+    }
+  }
+}
