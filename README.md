@@ -1,7 +1,7 @@
 # 知心档案 deepknow-dossier —— 给你的大肥鱼一份一生的主人使用说明书
 
 > **Know a person, not a persona.** 让大肥鱼真正懂一个具体的人——不是演，是懂。
-> **The human layer of the agent-skills ecosystem.** 英文主名 **Kinfile**（英文版见 [README.en.md](README.en.md)）。
+> **The human layer of the agent-skills ecosystem.** 英文主名 **deepknow**（产品名 deepknow-Engine，英文版见 [README.en.md](README.en.md)）。
 
 [![License: Apache-2.0](https://img.shields.io/badge/Code-Apache--2.0-blue.svg)](LICENSE-APACHE)
 [![License: CC BY 4.0](https://img.shields.io/badge/Docs%20%26%20Templates-CC%20BY%204.0-green.svg)](LICENSE-CC-BY-4.0)
@@ -10,7 +10,7 @@
 
 ## 一张表看懂我们在哪（第一屏 · 三栏定位表）
 
-| | 记忆层（mem0 / EverOS…） | 角色卡（SillyTavern…） | **知心档案 / Kinfile** |
+| | 记忆层（mem0 / EverOS…） | 角色卡（SillyTavern…） | **知心档案 / deepknow-Engine** |
 |---|---|---|---|
 | 记什么 | agent 的工作记忆 | 一个虚构角色 | **一个真实的人** |
 | 隐私 | 无分级 | 无 | **装载时权限 + 物理隔离 + 隐私扫描** |
@@ -51,7 +51,7 @@
 
 - 🔁 **持续维护**：v2.0 三层架构 → v2.5 对话引头 → v2.6 档案更新回路（2026-11-04，五道闸 21 例验收全绿）。路线图公开：v2.7 = supersede 链 / 多设备 export-import / 更多文化情景包。每一个版本都过对抗性脑暴+实跑验收，不接受"应该能跑"。
 - 🏪 **两个商用版本**在路线图上：**Pro 模板包**（照护机构版 / 客户温度版 CRM）与**定制建档服务**（子女给父母建档访谈代做）。社区版永久免费开源，商用版养活持续开发。
-- 🤝 **厂家合作**：桌面 AI / 陪伴机器人 / 客服系统厂商预装合作洽谈 → **hcac4735@agent.qq.com**（注明 Kinfile）。
+- 🤝 **厂家合作**：桌面 AI / 陪伴机器人 / 客服系统厂商预装合作洽谈 → **hcac4735@agent.qq.com**（注明 deepknow）。
 
 ---
 
@@ -120,14 +120,14 @@ python scripts/validate.py examples/example-dossier.json
 
 **一句话：本仓不是 memory layer 的竞品，是 memory layer 缺失的 human 层。**
 
-| | mem0 / EverOS 等记忆层 | SillyTavern 角色卡 | **deepknow-dossier / Kinfile** |
+| | mem0 / EverOS 等记忆层 | SillyTavern 角色卡 | **deepknow-dossier / deepknow-Engine** |
 |---|---|---|---|
 | 记什么 | agent 的工作记忆 | 一个虚构角色 | **一个真实的人** |
 | 隐私 | 无分级 | 无 | **装载时权限+物理隔离+隐私扫描** |
 | 主动性 | 无 | LLM 即兴（不可控） | **确定性引擎：配额/冷却/静音/默认 L0** |
 | 形态 | SDK/服务 | 前端+卡片 spec | **零依赖 Markdown+Schema，复制即用** |
 
-**品类命名权**：避开被 mem0 霸占的红海词 "memory layer"，主推 **Kinfile**（英文）+ 品类词 `human dossier for AI` / `know a person, not a persona`。
+**品类命名权**：避开被 mem0 霸占的红海词 "memory layer"，主推 **deepknow**（英文，产品名 deepknow-Engine）+ 品类词 `human dossier for AI` / `know a person, not a persona`。
 
 ---
 
@@ -208,7 +208,7 @@ deepknow-dossier/
 | Pro 模板包（路线图） | 照护机构版 / 客户温度版 CRM | 洽谈 |
 | 定制建档服务 | 子女给父母建档访谈代做 | 洽谈 |
 
-厂家预装合作 / 商务洽谈：**hcac4735@agent.qq.com**（注明 Kinfile）
+厂家预装合作 / 商务洽谈：**hcac4735@agent.qq.com**（注明 deepknow）
 
 ## 双许可
 

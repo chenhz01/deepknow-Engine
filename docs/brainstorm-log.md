@@ -22,7 +22,7 @@
 | sha256 防篡改回写 | 架构师+红队 | tokens.integrity |
 | schema_version 单向导出锚 | 架构师 | meta.schema_version |
 | 免费单机全功能/付费同步继承 | 用户A+B | 商业路线备忘 |
-| 英文别名（dossier=黑材料联想） | 运营 | README 双名 Kinfile |
+| 英文别名（dossier=黑材料联想） | 运营 | README 双名 deepknow-Engine |
 
 ## 驳回/缓议（含理由）
 

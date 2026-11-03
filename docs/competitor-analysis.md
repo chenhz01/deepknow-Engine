@@ -17,7 +17,7 @@
 | tigerless-labs/agent-memory | 4.3k | Markdown 真相源+可删缓存+睡眠整理，2 个月 0→4.3k | **增长最快案例**。README 打法值得抄：①不变量（Design commitments）当卖点 ②"enforced by a test, not promised in a doc" 式工程可信话术 |
 | MemMachine/MemMachine | 3.1k | 通用记忆层 | 同 mem0 |
 
-**学习点**：这条赛道证明了"agent 记忆"是百亿级关注度的词，但全部在做"agent 记住事"，没人做"AI 懂一个人"。我们是它缺的那块拼图——**互补叙事**（"EverOS/mem0 让 AI 记住一切，Kinfile 让 AI 懂一个人"）比对抗叙事省十倍力气。
+**学习点**：这条赛道证明了"agent 记忆"是百亿级关注度的词，但全部在做"agent 记住事"，没人做"AI 懂一个人"。我们是它缺的那块拼图——**互补叙事**（"EverOS/mem0 让 AI 记住一切，deepknow-Engine 让 AI 懂一个人"）比对抗叙事省十倍力气。
 
 ### 赛道 B：人格卡 / 角色扮演（形式最近，本质相反）
 
@@ -55,14 +55,14 @@ openclaw（393k★）、hermes-agent（260k★）、lobehub（83k★）、agency
 
 三栏占位表（建议放 README.en.md 第一屏）：
 
-| | mem0 / EverOS 等记忆层 | SillyTavern 角色卡 | **zhixin-dossier / Kinfile** |
+| | mem0 / EverOS 等记忆层 | SillyTavern 角色卡 | **zhixin-dossier / deepknow-Engine** |
 |---|---|---|---|
 | 记什么 | agent 的工作记忆 | 一个虚构角色 | **一个真实的人** |
 | 隐私 | 无分级 | 无 | **装载时权限+物理隔离+隐私扫描** |
 | 主动性 | 无 | LLM 即兴（不可控） | **确定性引擎：配额/冷却/静音/默认 L0** |
 | 形态 | SDK/服务 | 前端+卡片 spec | **零依赖 Markdown+Schema，复制即用** |
 
-品类命名权：建议主推 **Kinfile**（英文）+ 品类词 `human dossier for AI` / `know a person, not a persona`。避开红海词 "memory layer"（搜索结果被 mem0 一霸占）。
+品类命名权：建议主推 **deepknow-Engine**（英文）+ 品类词 `human dossier for AI` / `know a person, not a persona`。避开红海词 "memory layer"（搜索结果被 mem0 一霸占）。
 
 ## 三、从头部竞品 README 抄的四个打法
 
@@ -75,9 +75,9 @@ openclaw（393k★）、hermes-agent（260k★）、lobehub（83k★）、agency
 
 | 阶段 | 动作 | 依据 |
 |---|---|---|
-| 发布前（本周） | ①补 README.en.md（英文主打 Kinfile）②README 第一屏加三栏占位表 ③"设计承诺"区改写 ④topics 补 `agent-memory` `ai-companion` `family` `privacy` `digital-legacy` | 记忆层词流量大但被占，用对比表借流量 |
+| 发布前（本周） | ①补 README.en.md（英文主打 deepknow-Engine）②README 第一屏加三栏占位表 ③"设计承诺"区改写 ④topics 补 `agent-memory` `ai-companion` `family` `privacy` `digital-legacy` | 记忆层词流量大但被占，用对比表借流量 |
 | D+0 首发 24h | DSH 社区（dshbase/dshpluginhub）+ V2EX/即刻/小红书「给 AI 建了我爸的档案」贴 + 对话对比截图 | 榜单#1 是 DSH 官方仓，流量实证 |
-| D+1~3 | HN：*Show HN: Kinfile – A privacy-tiered dossier that makes any AI truly know a person*（美东周二至周四上午发） | 英文 README 就绪才有资格 |
+| D+1~3 | HN：*Show HN: deepknow-Engine – A privacy-tiered dossier that makes any AI truly know a person*（美东周二至周四上午发） | 英文 README 就绪才有资格 |
 | D+7~14 | GitHub Pages 在线档案生成器（纯静态）+ 采用案例墙 + Discussions 开放新模板征集 | unslop/ai-pose-gallery-zh 零依赖爆款配方 |
 | 持续 | 互补叙事联动：向 EverOS/agent-memory 提 integration issue；角色卡社区发"真实档案 vs 角色卡"反差贴 | 借 68k/13.8k 生态的存量关注 |
 

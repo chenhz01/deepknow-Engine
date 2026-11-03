@@ -1,4 +1,4 @@
-# Kinfile — A dossier that makes any AI truly know a person
+# deepknow-Engine — A dossier that makes any AI truly know a person
 
 > **Know a person, not a persona.**
 > **The human layer of the agent-skills ecosystem.** 中文版见 [README.md](README.md)。
@@ -11,7 +11,7 @@ Your AI agent forgets you every session. Memory layers (mem0, 68k★) fix *what 
 
 ## Where we sit (one table)
 
-| | Memory layers (mem0 / EverOS) | Character cards (SillyTavern) | **Kinfile** |
+| | Memory layers (mem0 / EverOS) | Character cards (SillyTavern) | **deepknow-Engine** |
 |---|---|---|---|
 | Captures | agent working memory | a fictional persona | **one real person** |
 | Privacy | untyped | none | **load-time permissions + physical isolation + PII scanning** |
@@ -101,7 +101,7 @@ Two commercial editions are planned (Pro template packs for care organizations /
 
 ## For makers & vendors
 
-Pre-install / partnership inquiries for desktop AI, companion robots, and CX systems: **hcac4735@agent.qq.com** (subject: Kinfile).
+Pre-install / partnership inquiries for desktop AI, companion robots, and CX systems: **hcac4735@agent.qq.com** (subject: deepknow).
 
 ## License
 
