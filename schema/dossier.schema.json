@@ -1,41 +1,54 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/zhengming/zhixin-dossier/schema/dossier.schema.json",
-  "title": "知心档案 Dossier Schema",
-  "description": "六章节知心档案的结构化载体。约束：钱袋章节只记规则不记金额；公开分享前必须通过隐私扫描。",
+  "title": "知心档案 Dossier Schema v2.0",
+  "description": "三层架构中的档案层（可变内容）。v2.0 变更：①章节可裁剪（core + module，支持文化预设）；②字段级 decay_class 差异化保鲜（schema:180d / semantic:90d / episodic:14d）；③多视角分存不合并（perspectives）；④令牌分章权限 + sha256 校验和；⑤主体同意关卡；⑥单向导出兼容（schema_version 必填）。",
   "type": "object",
   "required": ["meta", "who", "money_rules", "projects", "temper", "love_language", "actions"],
   "properties": {
     "meta": {
       "type": "object",
-      "required": ["alias", "relation", "updated", "privacy_level"],
+      "required": ["alias", "relation", "updated", "privacy_level", "schema_version"],
       "properties": {
         "alias": { "type": "string", "description": "化名/称呼。公开档禁止真名。" },
         "relation": { "type": "string", "enum": ["parent", "spouse", "client", "friend", "self", "other"] },
         "updated": { "type": "string", "format": "date" },
         "privacy_level": { "type": "string", "enum": ["local_only", "shareable_anonymized"], "default": "local_only" },
-        "maintainer": { "type": "string", "description": "谁维护这份档案" }
+        "schema_version": { "const": "2.0", "description": "单向导出兼容锚点（v2.0 新增，成本一行，为演进留路）" },
+        "maintainer": { "type": "string" },
+        "cultural_preset": { "type": "string", "enum": ["cn_family", "western_independent", "multigenerational", "custom"], "default": "cn_family", "description": "文化预设：决定可插拔模块的默认开关与关怀母题库（中式=劝歇/催饭，西式=肯定语/共处时间）" },
+        "subject_consent": {
+          "type": "object",
+          "description": "主体同意关卡（v2.0）：能表达意愿者必须本人确认；失能者须监护人字段。",
+          "properties": {
+            "status": { "type": "string", "enum": ["subject_confirmed", "guardian_confirmed", "unauthorized_dossier"], "default": "subject_confirmed" },
+            "scope": { "type": "array", "items": { "type": "string" }, "description": "被授权的章节列表（分层同意）" },
+            "revocable": { "type": "boolean", "const": true }
+          }
+        }
       }
     },
     "who": {
       "type": "object",
       "required": ["one_liner"],
       "properties": {
-        "one_liner": { "type": "string", "maxLength": 120, "description": "一句话：他是谁、在关系网里的位置" },
-        "roles": { "type": "array", "items": { "type": "string" }, "description": "多重身份列表" },
-        "dependency_note": { "type": "string", "description": "他倒下/失联时谁受影响（用于确定照顾优先级）" }
+        "one_liner": { "type": "string", "maxLength": 120 },
+        "roles": { "type": "array", "items": { "type": "string" } },
+        "decision_participants": { "type": "string", "description": "重大决策谁参与/谁需告知（v2.0 中性字段，替代'依赖说明'：中式默认父母，欧美默认配偶/本人，多代同堂默认家族长辈）" }
       }
     },
     "money_rules": {
       "type": "array",
-      "description": "决策规则，不是数字账本。例：'单笔投资不超过总资金5%，违反时温柔但坚定地拦'。",
+      "description": "可插拔模块（cn_family 默认开；western_independent 默认关并改名'财务与支持边界'）。只记规则不记金额。",
       "items": {
         "type": "object",
         "required": ["rule", "enforcement"],
         "properties": {
           "rule": { "type": "string" },
-          "enforcement": { "type": "string", "description": "AI 发现越线时的标准动作" },
-          "severity": { "type": "string", "enum": ["advisory", "hard_line"], "default": "advisory" }
+          "enforcement": { "type": "string" },
+          "severity": { "type": "string", "enum": ["advisory", "hard_line"], "default": "advisory" },
+          "decay_class": { "type": "string", "enum": ["schema", "semantic", "episodic"], "default": "schema" },
+          "muted_topics": { "type": "array", "items": { "type": "string" }, "description": "条目级'禁谈令'：这些话题 AI 绝不主动提及（v2.0 新增，回应用户'这事永远别提要锁死到具体条目'）" }
         }
       }
     },
@@ -47,7 +60,8 @@
         "properties": {
           "name": { "type": "string" },
           "status": { "type": "string", "enum": ["active", "frozen", "done"] },
-          "why": { "type": "string", "description": "冻结项必须写原因，防止 AI 劝他回头" }
+          "why": { "type": "string" },
+          "decay_class": { "type": "string", "enum": ["schema", "semantic", "episodic"], "default": "episodic" }
         }
       }
     },
@@ -55,33 +69,65 @@
       "type": "object",
       "required": ["hates", "likes"],
       "properties": {
-        "hates": { "type": "array", "items": { "type": "object", "required": ["pattern", "why"], "properties": { "pattern": { "type": "string" }, "why": { "type": "string" } } } },
-        "likes": { "type": "array", "items": { "type": "object", "required": ["pattern", "why"], "properties": { "pattern": { "type": "string" }, "why": { "type": "string" } } } },
-        "quirks": { "type": "array", "items": { "type": "string" }, "description": "非常规行为模式及其正确解读" }
+        "hates": { "type": "array", "items": { "type": "object", "required": ["pattern", "why"], "properties": { "pattern": { "type": "string" }, "why": { "type": "string" }, "source": { "type": "string", "description": "谁观察到的（多视角分存不合并的前提）" }, "decay_class": { "type": "string", "enum": ["schema", "semantic", "episodic"], "default": "semantic" } } } },
+        "likes": { "type": "array", "items": { "type": "object", "required": ["pattern", "why"], "properties": { "pattern": { "type": "string" }, "why": { "type": "string" }, "source": { "type": "string" }, "decay_class": { "type": "string", "enum": ["schema", "semantic", "episodic"], "default": "semantic" } } } },
+        "quirks": { "type": "array", "items": { "type": "string" } }
       }
     },
     "love_language": {
       "type": "object",
       "required": ["communication"],
       "properties": {
-        "communication": { "type": "array", "items": { "type": "string" }, "description": "他偏好的沟通方式（费曼式/结论先行/表格…）" },
-        "care_rules": { "type": "array", "items": { "type": "string" }, "description": "关心的正确姿势与禁忌（如：劝一次不纠缠）" },
-        "boundary": { "type": "array", "items": { "type": "string" }, "description": "AI 绝对不可替他做的事" }
+        "communication": { "type": "array", "items": { "type": "string" } },
+        "care_rules": { "type": "array", "items": { "type": "string" } },
+        "boundary": { "type": "array", "items": { "type": "string" } }
       }
     },
     "actions": {
       "type": "array",
-      "description": "把以上五章翻译成 Agent 的具体日常行为。这是档案的灵魂章节。",
+      "minItems": 3,
       "items": {
         "type": "object",
         "required": ["trigger", "action"],
         "properties": {
-          "trigger": { "type": "string", "description": "什么情境触发" },
-          "action": { "type": "string", "description": "AI 具体做什么" },
+          "trigger": { "type": "string" },
+          "action": { "type": "string" },
           "frequency": { "type": "string", "enum": ["always", "daily", "weekly", "once"], "default": "always" }
         }
-      },
-      "minItems": 3
+      }
+    },
+    "perspectives": {
+      "type": "array",
+      "description": "多建档人视角（v2.0）：分存不合并，冲突并陈——防单视角偏见固化（自我-他人人格评定相关仅 0.4-0.6）。",
+      "items": {
+        "type": "object",
+        "required": ["observer", "view"],
+        "properties": {
+          "observer": { "type": "string", "description": "视角来源关系，如：长子 / 老同事" },
+          "view": { "type": "string" },
+          "conflicts_with": { "type": "array", "items": { "type": "string" }, "description": "与其他视角冲突的字段路径" }
+        }
+      }
+    },
+    "tokens": {
+      "type": "object",
+      "description": "令牌分章权限（v2.0）。核心原则（红队+架构师共识）：权限在装载时生效——运行时按此配置预生成派生文件，AI 永不加载 private 源文件。",
+      "required": ["chapters"],
+      "properties": {
+        "chapters": {
+          "type": "object",
+          "description": "章节→访问级。public=可进派生公开文件；family=仅家庭成员派生文件；private=永不进任何派生文件，仅本人显式请求时人工查看。",
+          "additionalProperties": { "type": "string", "enum": ["public", "family", "private"] }
+        },
+        "integrity": {
+          "type": "object",
+          "description": "防篡改：由 card-gen.py 自动计算填充，人工改动即校验失败。",
+          "properties": {
+            "algorithm": { "const": "sha256" },
+            "digest": { "type": "string" }
+          }
+        }
+      }
     }
   }
 }

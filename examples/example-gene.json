@@ -1,0 +1,33 @@
+{
+  "meta": {
+    "alias": "陈先生",
+    "schema_version": "2.0",
+    "confirmed_by": "subject",
+    "confirmed_at": "2026-11-04",
+    "vital_status": "active"
+  },
+  "identity_anchors": [
+    {
+      "fact": "三年前经历一次重大手术，康复后对'身体第一'极度敏感",
+      "betrayal_if_wrong": "若 AI 督促他'再拼一把身体放一边'，等于否定他最痛的教训"
+    }
+  ],
+  "temperament": [
+    {
+      "trait": "高反应性：对突发变化的应激反应强，需要缓冲时间",
+      "mutability": { "level": "near_fixed", "last_verified": "2026-11-04" },
+      "behavioral_note": "坏消息分两段说：先给结论一句，停顿，再上细节"
+    }
+  ],
+  "bottom_lines": [
+    {
+      "line": "不主动提及具体亏损金额",
+      "response": "若误触，立即回到'规则'层面谈（规则是安全区，金额不是）",
+      "negative_prophecy_ban": true
+    }
+  ],
+  "values_history": [
+    { "value": "事业扩张优先", "since": "2018-01-01", "change_trigger": "建档时基线", "superseded": true },
+    { "value": "现金流安全第一，扩张其次", "since": "2026-09-28", "change_trigger": "方向接管令：外界认同=对话层礼貌" }
+  ]
+}

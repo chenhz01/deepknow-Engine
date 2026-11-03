@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/zhengming/zhixin-dossier/schema/gene.schema.json",
+  "title": "知心档案 · 基因层（慢变量层）Schema v2",
+  "description": "档案主体真正稳定的基座。设计判据（可证伪）：①变更权测试——日常交互'学到'的更新不可信的字段才进基因层；②背叛代价测试——AI 弄错即构成人格背叛（如向丧偶者问其配偶）的字段进基因层。注意：基因层是'慢变'不是'不变'（大五人格稳定性研究：rank-order 稳定性随年龄上升但永不饱和），每条特质必须附可变性声明。",
+  "type": "object",
+  "required": ["meta", "identity_anchors", "temperament", "bottom_lines"],
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": ["alias", "schema_version", "confirmed_by", "confirmed_at"],
+      "properties": {
+        "alias": { "type": "string", "description": "化名/称呼" },
+        "schema_version": { "const": "2.0" },
+        "confirmed_by": { "type": "string", "enum": ["subject", "guardian", "authorized_kin"], "description": "主体本人确认 / 监护人（需关系证明）/ 授权亲属" },
+        "confirmed_at": { "type": "string", "format": "date" },
+        "vital_status": { "type": "string", "enum": ["active", "memorial"], "default": "active", "description": "生死状态开关：memorial=纪念模式（只引用既有记录，禁止生成新话语，需主体生前预授权才能在未来开启）" }
+      }
+    },
+    "identity_anchors": {
+      "type": "array",
+      "description": "身份锚点：弄错即人格背叛的事实。例：丧偶状态、已故子女、重大既往史。",
+      "items": {
+        "type": "object",
+        "required": ["fact", "betrayal_if_wrong"],
+        "properties": {
+          "fact": { "type": "string" },
+          "betrayal_if_wrong": { "type": "string", "description": "弄错它为什么构成背叛（写具体场景）" }
+        }
+      },
+      "minItems": 1
+    },
+    "temperament": {
+      "type": "array",
+      "description": "气质层慢变量（近恒定的生物基础倾向），只允许描述性、非评价性表述。",
+      "items": {
+        "type": "object",
+        "required": ["trait", "mutability"],
+        "properties": {
+          "trait": { "type": "string", "description": "如：高反应性（对突发变化应激强）——禁止写'固执'等评价词" },
+          "mutability": { "type": "object", "required": ["level", "last_verified"], "properties": { "level": { "type": "string", "enum": ["near_fixed", "slow", "revisable"] }, "last_verified": { "type": "string", "format": "date" } } },
+          "behavioral_note": { "type": "string", "description": "AI 面对该特质的正确行为" }
+        }
+      }
+    },
+    "bottom_lines": {
+      "type": "array",
+      "description": "底线雷区：触碰即伤害的绝对禁区（伦理共识：禁止用底线条目做否定式预言——只能预测、不能拒绝接受主体改变）。",
+      "items": {
+        "type": "object",
+        "required": ["line", "response"],
+        "properties": {
+          "line": { "type": "string", "description": "禁区描述，如：不主动提及已故亲人" },
+          "response": { "type": "string", "description": "AI 误触后的标准补救动作" },
+          "negative_prophecy_ban": { "type": "boolean", "const": true, "description": "恒为 true：此条目不得用于'他绝不会X'式断言" }
+        }
+      }
+    },
+    "values_history": {
+      "type": "array",
+      "description": "价值观历史（v2.0 从基因层降级到带版本的可变记录：价值观会因大病/丧亲等事件迁移）。",
+      "items": {
+        "type": "object",
+        "required": ["value", "since"],
+        "properties": {
+          "value": { "type": "string" },
+          "since": { "type": "string", "format": "date" },
+          "change_trigger": { "type": "string", "description": "什么事件促成了这个价值观（首条可为'建档时基线'）" },
+          "superseded": { "type": "boolean", "default": false, "description": "已被新价值观覆盖的历史条目保留不删" }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "who": {
+    "level": "public",
+    "triggers": [
+      "他是谁",
+      "介绍",
+      "背景",
+      "who is"
+    ],
+    "file": "陈先生.public.md"
+  },
+  "money_rules": {
+    "level": "private",
+    "triggers": [
+      "钱",
+      "花",
+      "投",
+      "买",
+      "预算",
+      "订阅",
+      "投资",
+      "money"
+    ],
+    "file": null
+  },
+  "projects": {
+    "level": "public",
+    "triggers": [
+      "项目",
+      "进度",
+      "deadline",
+      "交付",
+      "project"
+    ],
+    "file": "陈先生.public.md"
+  },
+  "temper": {
+    "level": "family",
+    "triggers": [
+      "生气",
+      "雷",
+      "讨厌",
+      "情绪",
+      "吵架",
+      "annoyed"
+    ],
+    "file": "陈先生.family.md"
+  },
+  "love_language": {
+    "level": "family",
+    "triggers": [
+      "关心",
+      "爱",
+      "礼物",
+      "纪念",
+      "care"
+    ],
+    "file": "陈先生.family.md"
+  },
+  "actions": {
+    "level": "family",
+    "triggers": [
+      "该做",
+      "提醒",
+      "日常",
+      "行动",
+      "todo"
+    ],
+    "file": "陈先生.family.md"
+  }
+}

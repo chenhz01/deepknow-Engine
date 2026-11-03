@@ -2,6 +2,11 @@
 
 > **让任何 AI 真正懂一个具体的人。**
 > Make any AI truly *know* one specific person — not a persona, a person.
+> 英文别名 **Kinfile**（dossier 在英文语境带"黑材料"联想，双名并行）。
+
+**v2.0 三层架构**（2026-11-04，经 10 身份对抗性脑暴升级）：**基因层**（慢变量基座：身份锚点/气质/底线，主体确认后生效）→ **档案层**（六章节可变内容 + 分章令牌 + sha256 防篡改）→ **卡片层**（装载时生成派生文件，AI 永不接触 private 源内容）。详见 [docs/architecture.md](docs/architecture.md)。
+
+**v2.0 安全突破**：运行时令牌是安全剧场（一次提示注入即穿透）——权限改在**装载时**生效：`card-gen.py` 按令牌预生成派生文件，private 章节物理上不存在于 AI 可及范围内。
 
 [![License: Apache-2.0](https://img.shields.io/badge/Code-Apache--2.0-blue.svg)](LICENSE-APACHE)
 [![License: CC BY 4.0](https://img.shields.io/badge/Docs%20%26%20Templates-CC%20BY%204.0-green.svg)](LICENSE-CC-BY-4.0)
@@ -49,10 +54,14 @@ python scripts/validate.py examples/example-dossier.json
 ```
 zhixin-dossier/
 ├── skill/SKILL.md              # 通用 Agent skill：档案访谈生成器
-├── schema/dossier.schema.json  # 档案 JSON Schema（六章节）
+├── schema/dossier.schema.json  # 档案层 Schema v2.0（令牌/衰减/多视角/同意关卡）
+├── schema/gene.schema.json     # 基因层 Schema（慢变量+可变性声明+生死开关）
+├── scripts/card-gen.py         # 装载时权限引擎：生成常驻卡/派生档/检索索引
 ├── templates/                  # 四类人物模板（父母/配偶/客户/朋友）
-├── examples/example-dossier.*  # 脱敏示例档案（Markdown + JSON）
-├── scripts/validate.py         # Schema 校验 + 隐私扫描
+├── examples/                   # 脱敏示例档案（档案层 + 基因层）
+├── scripts/validate.py         # 结构+基因联合校验 + 归一化隐私扫描
+├── docs/architecture.md        # 三层架构白皮书（含可证伪判据）
+├── docs/brainstorm-log.md      # 10身份对抗脑暴采纳/驳回记录
 └── scripts/install.*           # 一键安装
 ```
 
