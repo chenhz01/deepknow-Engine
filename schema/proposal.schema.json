@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "zhixin-dossier/proposal.schema.json",
+  "title": "知心档案 · 更新提案 v1.0（proposal/1.0）",
+  "description": "档案更新回路的提案单条记录。铁律：LLM 永远没有直接写档案的路径，只能产出本 schema 的提案；闸门全部由确定性代码执行。本 schema 开放共建——社区只可增补可选字段，不可修改/删除既有必填字段与枚举值（破坏性变更须核心维护者审）。",
+  "type": "object",
+  "required": [
+    "proposal_id", "schema", "created_at", "class",
+    "subject", "confirmer", "source_id", "quote",
+    "target", "action", "after", "status"
+  ],
+  "properties": {
+    "proposal_id": {
+      "type": "string",
+      "pattern": "^p-[0-9]{8}-[0-9]{3,}$",
+      "description": "提案唯一 id，格式 p-YYYYMMDD-序号。ingest 按 id 去重（多设备 import 合并用）。"
+    },
+    "schema": {
+      "const": "proposal/1.0",
+      "description": "schema 版本号。校验器硬性检查，版本不符即拒。"
+    },
+    "created_at": {
+      "type": "string",
+      "description": "提取时刻，ISO 8601 且必须带显式时区偏移（如 +08:00）。惰性生命周期随读判定的时间基准。",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]+)?(Z|[+-][0-9]{2}:[0-9]{2})$"
+    },
+    "class": {
+      "enum": ["life", "medication"],
+      "description": "时效分级：medication（用药/就医类）24h 过期；life（生活类）14 天过期。过期不销毁，冻结转摘要。"
+    },
+    "subject": {
+      "type": "object",
+      "required": ["id", "alias", "relation"],
+      "properties": {
+        "id":       { "type": "string", "description": "数据主体标识（档案 meta 中的主体）" },
+        "alias":    { "type": "string" },
+        "relation": { "type": "string", "description": "与建档人的关系：self/son/daughter/guardian/…" }
+      },
+      "description": "数据主体。主体与确认人分离：子女确认 ≠ 本人同意，本人建档同意+随时否决优先。"
+    },
+    "confirmer": {
+      "type": "object",
+      "required": ["id", "alias", "relation"],
+      "properties": {
+        "id":       { "type": "string" },
+        "alias":    { "type": "string" },
+        "relation": { "type": "string" }
+      },
+      "description": "确认人。relation=self 且 subject.relation!=self 时，校验器提示『本人可直接否决』。"
+    },
+    "source_id": {
+      "type": "string",
+      "description": "来源会话/消息组标识（如 sess-20261104-a1）。只存标识与 hash，不存对话原文。"
+    },
+    "quote": {
+      "type": "string",
+      "maxLength": 300,
+      "description": "对话原话 verbatim 引文（≤300字），必填。这是提取契约的锚：after 必须能从 quote 推出。quote 不得与 after 相同——相同即视为 LLM 自编引文（幻觉信号），拒收。"
+    },
+    "target": {
+      "type": "object",
+      "required": ["layer", "section"],
+      "properties": {
+        "layer": {
+          "enum": ["dossier"],
+          "description": "v2.6 硬边界：只有 dossier 层可提案。gene 层不在提案回路（慢变量只走人工复访访谈）。出现 gene 即拒。"
+        },
+        "section": {
+          "enum": ["who", "money_rules", "projects", "temper", "love_language", "actions"],
+          "description": "目标章节，六章节枚举，禁路径分隔符（防穿越）。"
+        },
+        "field": { "type": ["string", "null"], "description": "可选：章节内字段名。禁路径分隔符。" }
+      }
+    },
+    "action": {
+      "enum": ["add", "update", "supersede"],
+      "description": "supersede=标记替代（v2.6 不物理删，删除走此动作留痕；链结构 v2.7 实现）。"
+    },
+    "before": {
+      "type": ["string", "null"],
+      "description": "变更前内容（update 时必填）。与 after 同受行为动词/隐私/亲属词扫描。"
+    },
+    "after": {
+      "type": "string",
+      "maxLength": 500,
+      "description": "变更后内容（事实性陈述，≤500字）。受四重扫描：隐私正则、行为动词检测、亲属词主语规则、（quote 可推性由宿主 Agent 自律+抽样核对）。"
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0, "maximum": 1,
+      "description": "LLM 自报置信度。⚠️ 不参与排序（自报置信度与真实准确率相关性弱），仅存档。排序依据：矛盾冲突置顶 > 第三方标记置顶 > 时间。"
+    },
+    "status": {
+      "enum": ["pending", "approved", "rejected", "rejected_scan", "expired", "ingested"],
+      "description": "生命周期状态。流转全部由确定性代码执行：submit 只能写 pending；approve 只把 pending→approved（惰性过期者拒绝）；ingest 把 approved→ingested 或 →rejected_scan。"
+    },
+    "third_party": {
+      "type": ["object", "null"],
+      "properties": {
+        "anonymous_role": { "type": "string", "description": "匿名角色描述（如『他的母亲』『合作方A』）。" },
+        "disclosed":      { "type": "boolean", "description": "是否已告知该第三方。默认 false，档案侧高亮『涉第三方、未告知』。" }
+      },
+      "description": "涉第三方信息：默认不提取；确需留存必须用匿名角色（after 中出现亲属词专名而无此声明 → 闸④拒绝）。"
+    }
+  }
+}
