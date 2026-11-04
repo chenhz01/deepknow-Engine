@@ -70,6 +70,17 @@ powershell scripts/install.ps1   # Windows
 python scripts/validate.py examples/example-dossier.json
 ```
 
+### DSH NEXT 用户：插件版（已上架本地插件列表）
+
+```bash
+# 在 DSH profile 目录里一条命令装成本地插件（出现在「已安装」列表）：
+cd ~/.dsh/profiles/desktop
+pnpm add file:../../dsh-deepknow-plugin   # 或从 Releases 下载 dsh-deepknow-engine zip 解压后 pnpm add file:<路径>
+```
+
+插件本体是轻量桥（`ctx.deepknow` 只读状态服务），真正能力在 skill 层：`deepknow-engine`（v4.0 身份前提 + 立场判断 16 项）与 `dad-profile`（档案内容）。**档案告诉你「他是谁」，引擎告诉你「怎么说」。** 源码见 [`dsh-plugin/`](dsh-plugin/)。
+
+
 ## 设计承诺（每一条都有测试背书，不是文档里的口头承诺）
 
 > 抄 tigerless/agent-memory 的话术并升级：**enforced by a test, not promised in a doc.** 测试矩阵全开源，谁都可以跑：`python scripts/test_v26.py`（21 例含 11 负对照）+ `python scripts/validate.py examples/example-dossier.json`（结构+隐私扫描）。
