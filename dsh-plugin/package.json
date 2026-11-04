@@ -12,10 +12,10 @@
     "deepknow-engine",
     "cordis"
   ],
-  "homepage": "https://github.com/chenhz01/deepknow-dossier#readme",
+  "homepage": "https://github.com/chenhz01/deepknow-Engine#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/chenhz01/deepknow-dossier.git"
+    "url": "git+https://github.com/chenhz01/deepknow-Engine.git"
   },
   "license": "Apache-2.0",
   "type": "commonjs",

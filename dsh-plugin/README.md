@@ -3,7 +3,7 @@
 > **deepknow-Engine** — a privacy-tiered dossier engine that makes any AI truly know a person.
 > 给你的大肥鱼一份一生的主人使用引擎。第三方非官方插件。
 
-主仓：**https://github.com/chenhz01/deepknow-dossier**（完整设计文档、测试矩阵、28 式费曼助读都在那里）
+主仓：**https://github.com/chenhz01/deepknow-Engine**（完整设计文档、测试矩阵、28 式费曼助读都在那里）
 
 ## 这是什么
 
