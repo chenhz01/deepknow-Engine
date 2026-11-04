@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>deepknow-Engine 知心引擎 · 给 AI 的主人使用说明书</title>
+<meta name="description" content="隐私分级的个人档案引擎：让任何 AI 真正懂一个具体的人。纯 Markdown + 零依赖，装载时权限，永不上传。">
+<style>
+  :root{
+    --bg:#0b0e14; --card:#161c2c; --card2:#1b2338; --line:#26304a;
+    --tx:#e8edf7; --tx2:#9aa7c2; --accent:#5b8cff; --accent2:#37d4aa;
+    --warn:#ffb454;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--tx);font-family:Inter,"PingFang SC","Microsoft YaHei",sans-serif;line-height:1.7}
+  .wrap{max-width:960px;margin:0 auto;padding:0 24px}
+  header{padding:72px 0 40px;text-align:center;border-bottom:1px solid var(--line)}
+  .kicker{color:var(--accent2);letter-spacing:.2em;font-size:13px;text-transform:uppercase}
+  h1{font-size:42px;margin:14px 0 10px;font-weight:700}
+  h1 .en{color:var(--accent)}
+  .tagline{font-size:19px;color:var(--tx2)}
+  .cta{margin-top:28px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+  .btn{display:inline-block;padding:12px 26px;border-radius:10px;text-decoration:none;font-weight:600;font-size:15px}
+  .btn.primary{background:var(--accent);color:#fff}
+  .btn.ghost{border:1px solid var(--line);color:var(--tx)}
+  .btn:hover{opacity:.88}
+  section{padding:56px 0}
+  h2{font-size:26px;margin-bottom:8px}
+  .sub{color:var(--tx2);margin-bottom:26px;font-size:15px}
+  table{width:100%;border-collapse:collapse;background:var(--card);border-radius:12px;overflow:hidden;font-size:14.5px}
+  th,td{padding:14px 16px;text-align:left;border-bottom:1px solid var(--line)}
+  th{background:var(--card2);color:var(--tx2);font-weight:600}
+  td.hl{color:var(--accent2);font-weight:600}
+  tr:last-child td{border-bottom:none}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:24px}
+  .card h3{font-size:17px;margin-bottom:10px;color:var(--accent)}
+  .card p{color:var(--tx2);font-size:14.5px}
+  .card b{color:var(--tx)}
+  pre{background:#0d1119;border:1px solid var(--line);border-radius:12px;padding:20px;overflow-x:auto;font-family:"JetBrains Mono",Consolas,monospace;font-size:13.5px;color:#c9d6f2}
+  .links{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+  .links a{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;text-decoration:none;color:var(--tx);display:block}
+  .links a:hover{border-color:var(--accent)}
+  .links .t{font-weight:600;margin-bottom:4px}
+  .links .d{color:var(--tx2);font-size:13px}
+  footer{border-top:1px solid var(--line);padding:32px 0;color:var(--tx2);font-size:13px;text-align:center}
+  footer b{color:var(--tx)}
+  .shield{color:var(--warn);font-size:14px;margin-top:18px}
+</style>
+</head>
+<body>
+
+<header class="wrap">
+  <div class="kicker">The human layer of the agent-skills ecosystem</div>
+  <h1>知心引擎 <span class="en">deepknow-Engine</span></h1>
+  <p class="tagline"><b style="color:var(--tx)">Know a person, not a persona.</b> 给你的 AI 一份一生的《主人使用说明书》。</p>
+  <div class="cta">
+    <a class="btn primary" href="https://github.com/chenhz01/deepknow-Engine">GitHub 仓库</a>
+    <a class="btn ghost" href="https://github.com/chenhz01/deepknow-Engine/blob/main/README.md">30 秒上手</a>
+  </div>
+  <p class="shield">🔒 装载时权限 · 物理隔离 · 隐私扫描 —— AI 永远拿不到你不让它拿的部分</p>
+</header>
+
+<section class="wrap">
+  <h2>一张表看懂定位</h2>
+  <p class="sub">本仓不是 memory layer 的竞品，是 memory layer 缺失的 human 层。</p>
+  <table>
+    <tr><th></th><th>记忆层（mem0 / EverOS…）</th><th>角色卡（SillyTavern…）</th><th>知心档案 / deepknow-Engine</th></tr>
+    <tr><td><b>记什么</b></td><td>agent 的工作记忆</td><td>一个虚构角色</td><td class="hl">一个真实的人</td></tr>
+    <tr><td><b>隐私</b></td><td>无分级</td><td>无</td><td class="hl">装载时权限 + 物理隔离 + 隐私扫描</td></tr>
+    <tr><td><b>主动性</b></td><td>无</td><td>LLM 即兴（不可控）</td><td class="hl">确定性引擎：配额/冷却/静音/默认 L0</td></tr>
+    <tr><td><b>形态</b></td><td>SDK / 服务</td><td>前端 + 卡片 spec</td><td class="hl">零依赖 Markdown + Schema，复制即用</td></tr>
+  </table>
+</section>
+
+<section class="wrap">
+  <h2>为什么是它</h2>
+  <p class="sub">三个钩子，一句话版本。</p>
+  <div class="grid">
+    <div class="card">
+      <h3>🎯 更真人，不是更会演</h3>
+      <p>AI 每次新会话都把你忘干净，说话永远像客服。<b>解法不是换更大的模型</b>，是给它一份说明书：他知道你的雷点、未完线、你想被怎么对待——所以一句顶一万句。</p>
+    </div>
+    <div class="card">
+      <h3>🧠 任何 Agent 可挂载</h3>
+      <p>DSH NEXT、Claude Code、桌宠、客服机器人——<b>一份说明书多处生效</b>。纯 Markdown + Python 标准库，零依赖，复制即用，永不上传。</p>
+    </div>
+    <div class="card">
+      <h3>🔁 持续维护 · 商用路线</h3>
+      <p>v2.0 三层架构 → v2.6 档案更新回路（五道闸 21 例验收全绿）。社区版永久免费；<b>Pro 模板包与定制建档服务</b>在路线图上。厂家合作：hcac4735@agent.qq.com</p>
+    </div>
+  </div>
+</section>
+
+<section class="wrap">
+  <h2>30 秒上手</h2>
+  <p class="sub">六章节结构化档案，Markdown 人可读 + JSON Schema 机器可校验。</p>
+  <pre>git clone https://github.com/chenhz01/deepknow-Engine.git
+cd deepknow-Engine
+
+# 校验示例档案（零依赖，仅标准库）
+python scripts/validate.py examples/example-dossier.json
+python scripts/test_v26.py        # 五道闸 21+ 用例</pre>
+</section>
+
+<section class="wrap">
+  <h2>入口</h2>
+  <div class="links">
+    <a href="https://github.com/chenhz01/deepknow-Engine"><div class="t">📦 GitHub 仓库</div><div class="d">源码 / README / 架构文档</div></a>
+    <a href="https://github.com/chenhz01/deepknow-Engine/issues"><div class="t">💬 Issues · RFC 讨论</div><div class="d">路线图公开评审，欢迎拍砖</div></a>
+    <a href="https://github.com/chenhz01/deepknow-Engine/discussions"><div class="t">🗣️ Discussions</div><div class="d">用例征集 / 隐私实践分享</div></a>
+    <a href="https://github.com/chenhz01/deepknow-Engine/releases"><div class="t">🚀 Releases</div><div class="d">v2.6 更新回路 / DSH 插件版</div></a>
+  </div>
+</section>
+
+<footer class="wrap">
+  <p><b>deepknow-Engine</b> · 代码 Apache-2.0 · 文档与模板 CC BY 4.0</p>
+  <p style="margin-top:6px">档案永远在你自己的电脑上 —— 本站为静态页，不收集任何数据</p>
+</footer>
+
+</body>
+</html>
