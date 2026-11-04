@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 使用讨论 / 用例分享
+    url: https://github.com/chenhz01/deepknow-Engine/discussions
+    about: 用例征集、隐私实践、集成经验请到 Discussions
+  - name: 厂家合作（桌面 AI / 陪伴机器人 / 客服）
+    url: mailto:hcac4735@agent.qq.com
+    about: 预装合作洽谈请邮件注明 deepknow

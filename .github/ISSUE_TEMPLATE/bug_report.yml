@@ -1,0 +1,25 @@
+name: Bug report
+description: 引擎行为与文档/Schema 不符
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: 发生了什么
+      description: 期望行为 vs 实际行为，附最小复现档案（请脱敏！）
+    validations:
+      required: true
+  - type: input
+    id: env
+    attributes:
+      label: 环境
+      placeholder: "Python 3.12 / Claude Code / DSH NEXT …"
+    validations:
+      required: true
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: 隐私确认
+      options:
+        - label: 我确认提交内容不含真实个人档案数据
+          required: true
