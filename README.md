@@ -1,4 +1,4 @@
-# 知心档案 deepknow-dossier —— 给你的大肥鱼一份一生的主人使用说明书
+# 知心引擎 deepknow-Engine —— 给你的大肥鱼一份一生的主人使用说明书
 
 > **Know a person, not a persona.** 让大肥鱼真正懂一个具体的人——不是演，是懂。
 > **The human layer of the agent-skills ecosystem.** 英文主名 **deepknow**（产品名 deepknow-Engine，英文版见 [README.en.md](README.en.md)）。
