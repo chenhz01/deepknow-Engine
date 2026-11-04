@@ -1,6 +1,10 @@
-docs/publish-strategy.md
-docs/launch-kit.md
-docs/channel-charter.md
 docs/channel-artifacts/
+docs/channel-charter.md
 docs/channel-content.json
 docs/dsh-post-body.md
+docs/launch-kit.md
+docs/launch-kit.md
+docs/publish-strategy.md
+docs/publish-strategy.md
+scripts/channel-workflow.mjs
+scripts/channel_probe.mjs
