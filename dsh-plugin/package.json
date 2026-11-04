@@ -1,0 +1,27 @@
+{
+  "name": "dsh-deepknow-engine",
+  "version": "4.0.0-draft.1",
+  "description": "知心引擎 deepknow-Engine —— 给你的 AI 一份一生的主人使用引擎：身份前提（同侪位/行话位/不越位）+ 立场判断 16 项商业结果对齐（钱包/身体/关系/长期），让 AI 的每句关心都有档案出处、每个判断都站对人立场。插件本体是轻量桥：技能全文在 ~/.dsh/skills/deepknow-engine/ 与 ~/.dsh/skills/dad-profile/，由人设挂载调用。第三方非官方插件，与 DeepSeek 官方无关。",
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "agent-skills",
+    "personal-ai",
+    "family-care",
+    "deepknow-engine",
+    "cordis"
+  ],
+  "homepage": "https://github.com/chenhz01/deepknow-dossier#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chenhz01/deepknow-dossier.git"
+  },
+  "license": "Apache-2.0",
+  "type": "commonjs",
+  "main": "lib/index.js",
+  "files": [
+    "lib",
+    "README.md"
+  ]
+}
