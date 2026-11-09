@@ -2,6 +2,8 @@
 
 > **Know a person, not a persona.**
 > **The human layer of the agent-skills ecosystem.** 中文版见 [README.md](README.md)。
+>
+> **Disclaimer:** independently developed; not affiliated with or endorsed by Anthropic / Claude Code, mem0, EverOS, SillyTavern, or DSH NEXT. Those names appear only as landscape references. Repository contract and the two-channel distribution rule: [`AGENTS.md`](AGENTS.md).
 
 [![License: Apache-2.0](https://img.shields.io/badge/Code-Apache--2.0-blue.svg)](LICENSE-APACHE)
 [![License: CC BY 4.0](https://img.shields.io/badge/Docs%20%26%20Templates-CC%20BY%204.0-green.svg)](LICENSE-CC-BY-4.0)

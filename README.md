@@ -2,6 +2,8 @@
 
 > **Know a person, not a persona.** 让大肥鱼真正懂一个具体的人——不是演，是懂。
 > **The human layer of the agent-skills ecosystem.** 英文主名 **deepknow**（产品名 deepknow-Engine，英文版见 [README.en.md](README.en.md)）。
+>
+> **免责**：本项目独立开发，与 Anthropic / Claude Code、mem0、EverOS、SillyTavern、DSH NEXT 均无隶属或背书关系；文中提及仅作赛道对照。仓库契约与分发双通道一致性要求见 [`AGENTS.md`](AGENTS.md)。
 
 [![License: Apache-2.0](https://img.shields.io/badge/Code-Apache--2.0-blue.svg)](LICENSE-APACHE)
 [![License: CC BY 4.0](https://img.shields.io/badge/Docs%20%26%20Templates-CC%20BY%204.0-green.svg)](LICENSE-CC-BY-4.0)
